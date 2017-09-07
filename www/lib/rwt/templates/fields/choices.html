@@ -1,0 +1,16 @@
+<div class="inline-full" ng-if="field.validators.valid.length <=5">
+    <div class="btn-group">
+        <span class="btn btn-primary"
+              ng-repeat="choice in field.validators.valid"
+              uib-btn-radio="choice[0]"
+              ng-model="obj[field.id]">{* choice[1] *}</span>
+    </div>
+</div>
+<div class="inline-full" ng-if="field.validators.valid.length > 5">
+    <ui-select ng-model="obj[field.id]" theme="bootstrap" style="min-width: 300px;" on-select="obj[field.id]=$select.selected[0]">
+    <ui-select-match placeholder="{* field.name *}">{* $select.selected *}</ui-select-match>
+        <ui-select-choices repeat="item in field.validators.valid | filter: $select.search">
+            <div> {* item[1] *}</div>
+        </ui-select-choices>
+    </ui-select>
+</div>

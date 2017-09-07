@@ -1,0 +1,11 @@
+<span ng-if="!(edit && field.writable)">
+    {* obj[field.id].toString() *}
+</span>
+<w2p-data resource="{* field.to *}" for="obj.id?'post':'put'" ng-if="edit && field.writable" filter="{* filters[field.id] *}" local-filter="localFilters[field.id]">
+    <ui-select ng-model="obj[field.id]" theme="bootstrap" style="min-width: 300px;" on-select="referenceSelect($item,field)">
+        <ui-select-match placeholder="{* field.name *}">{* $select.selected.toString() *}</ui-select-match>
+        <ui-select-choices repeat="item in items | filter: $select.search">
+          <div> {* item.toString() *}</div>
+        </ui-select-choices>
+      </ui-select>
+</w2p-data>

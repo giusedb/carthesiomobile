@@ -1,0 +1,6 @@
+<div class="inline-full" ng-if="edit && field.writable">
+    <select name="{* field.id *}" ng-model="obj[field.id]" ng-options="i[0] as i[1] for i in field.validators.valid"></select>
+</div>
+<span ng-if="!(edit && field.writable)">
+    {* obj['_' + field.id].toString() *}
+</span>

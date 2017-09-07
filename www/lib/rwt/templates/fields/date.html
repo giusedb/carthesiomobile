@@ -1,0 +1,24 @@
+<span ng-if="isHtml5">
+    <span ng-hide="edit && field.writable">
+        {* obj[field.id] | asdate *}
+    </span>
+    <span ng-show="edit && field.writable">
+        <input type="date" ng-model="obj[field.id]" placeholder="field.name"/>
+    </span>
+</span>
+<span ng-if="!isHtml5">
+    <span >
+        {* obj[field.id] | asdate *}
+    </span>
+    <span ng-show="edit && field.writable">
+        <span class="btn btn-success mdi mdi-calendar" uib-btn-checkbox ng-model="showDates[$index]"></span>
+        <span ng-if="showDates[$index]">
+            <datetimepicker
+                    data-ng-model="obj[field.id]"
+                    data-datetimepicker-config="{ startView:'day', minView:'day'  }"
+                    data-on-set-time="showDates[$index] = false"
+                    ></datetimepicker>
+        </span>
+    </span>
+</span>
+

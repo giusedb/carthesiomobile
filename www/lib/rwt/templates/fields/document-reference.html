@@ -1,0 +1,12 @@
+<span ng-if="!edit">
+    <span ng-if="obj[field.id]">
+        <i class="mdi mdi-file-pdf"></i>
+        {* obj[field.id].toString() *}
+    </span>
+    <span ng-if="!obj[field.id]">
+        Nessun documento collegato
+    </span>
+</span>
+<div class="btn btn-default" ng-click="attach(field,obj)" ng-if="edit">
+    {* obj[field.id].toString() || 'nessun documento collegato'*}
+</div>

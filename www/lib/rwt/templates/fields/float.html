@@ -1,0 +1,16 @@
+<div class="inline-full" ng-if="edit && field.writable">
+    <input
+        type="number"
+        ng-model="obj[field.id]"
+        placeholder="{* field.name *}"
+        ng-required="field.validators.requred"
+        ng-minlength="field.validators.minlength"
+        ng-maxlength="field.validators.maxlength"
+        ng-min="field.validators.min"
+        ng-max="field.validators.max"
+        ng-pattern="field.validators.pattern"
+    />
+</div>
+<span ng-if="!(edit && field.writable)">
+    {* obj[field.id] *}
+</span>

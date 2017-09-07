@@ -1,16 +1,6 @@
-<ons-page ng-controller="condominio">    
-    <ons-list>
-        <ons-list-header>Avvisi</ons-list-header>
-        <ons-list-item ng-repeat="avviso in ilCondominio.avviso_condominio_set" tappable>
-            {* avviso.name *}
-        </ons-list-item>
-        <ons-list-header>Assemblee</ons-list-header>
-        <ons-list-item ng-repeat="assemblea in ilCondominio.assemblea_condominio_set" tappable>
-            {* assemblea.secondo_luogo *} il {* assemblea.seconda_data | asdatetime *}
-        </ons-list-item>
-    </ons-list>
-    <ons-list-header>Assemblee</ons-list-header>
-    <ons-list-item ng-repeat="assemblea in ilCondominio.assemblea_condominio_set" tappable>
-        {* assemblea.secondo_luogo *} il {* assemblea.seconda_data | asdatetime *}
-    </ons-list-item>
+<ons-page ng-controller="condominio as ctrl">
+    <ons-splitter id="condominioSplitter">
+        <ons-splitter-side page="templates/menu_condominio.html" swipeable width="250px" collapse swipe-target-width="60px"></ons-splitter-side>
+        <ons-splitter-content></ons-splitter-content>
+    </ons-splitter>
 </ons-page>

@@ -1,22 +1,10 @@
   <ons-page ng-controller="AppController as app">
-    <ons-toolbar>
-      <div class="center">
-        Carhtesio
-        <b ng-show="ilCondominio"> - {* ilCondominio.name *}</b>
-        </div>
-        <div class="right">
-            <ons-toolbar-button ng-click="userDetails.show($event)">
-                <ons-icon icon="ion-ios-person"></ons-icon>
-            </ons-toolbar-button>
-        </div>
-    </ons-toolbar>
-
     <ons-tabbar position="auto" ng-if="!showLogin">
         <ons-tab page="templates/condominio.html" label="Condominio" icon="ion-ios-home" active></ons-tab>
         <ons-tab page="templates/documenti.html" label="Documenti" icon="ion-ios-folder"></ons-tab>
     </ons-tabbar>
     
-    <ons-popover direction="down" var="userDetails" animation="fade-md" cancelable>
+    <ons-popover direction="down" var="userDetails" animation="fade-md" cancelable ng-controller="loginController">
       <div style="padding: 10px; text-align: center;">
         <h5>{* options.user.first_name *} {* options.user.last_name *}</h5>
         <ons-button ng-click="logout()">

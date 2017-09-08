@@ -1,21 +1,19 @@
 <ons-page ng-controller="condominio as ctrl">
-    <ons-splitter id="condominioSplitter">
-        <ons-splitter-side page="templates/menu_condominio.html" swipeable width="250px" collapse swipe-target-width="160px"></ons-splitter-side>
-        <ons-splitter-content></ons-splitter-content>
-    </ons-splitter>
- 
-    <ons-list>
-        <ons-list-item tappable>
-            Avvisi
-            <div class="right">
-                <ons-icon icon=""></ons-icon>
-            </div>
-        </ons-list-item>
-        <ons-list-item tappable>
-            Assemblee
-        </ons-list-item>
-        <ons-list-item tappable>
-            Informazioni sul condominio
-        </ons-list-item>
-    </ons-list>
+    <ons-toolbar>
+      <div class="left" >
+        <ons-toolbar-button ng-click="condominioNavigator.popPage()" ng-if="condominioNavigator.pages.length > 1">
+            <ons-icon icon="ion-ios-arrow-back">Indietro</ons-icon>
+        </ons-toolbar-button>
+      </div>
+      <div class="center">
+        Condominio
+        <b ng-show="ilCondominio"> - {* ilCondominio.name *}</b>
+        </div>
+        <div class="right">
+            <ons-toolbar-button ng-click="userDetails.show($event)">
+                <ons-icon icon="ion-ios-person"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+    </ons-toolbar>
+    <ons-navigator swipeable var="condominioNavigator" page="templates/menu_condominio.html"></ons-navigator>
 </ons-page>

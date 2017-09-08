@@ -7,6 +7,8 @@ var base_url = 'http://www.carthesio.it/';
 //var base_url = 'http://2.236.16.80:8888/';
 
 function Login($http, $rootScope) {
+    var options = {headers: {'Content-Type' : 'text/plain'}};
+
     if ('loginObj' in localStorage) {
         this.loginObj = JSON.parse(localStorage.loginObj);
     } else {
@@ -19,7 +21,7 @@ function Login($http, $rootScope) {
 
     this.login = function(callBack, errorBack, force) {
         var self = this;
-        var options = {headers: {'Content-Type' : 'text/plain'}};
+        
         if (!this.loginObj.username || !this.loginObj.password || !this.loginObj.tenant) {
             errorBack({data: {error: 'Devi inserire tutti dettagli di accesso (username, password, tenant)'} });
         } else {
@@ -57,6 +59,7 @@ function Login($http, $rootScope) {
         this.loginObj.password = null;
         delete this.loginObj.sessionId;
         console.warn('Logging out...', this.loginObj);
+        $http.post(base_url + this.loginObj.tenant + '/api/login', {username: this.loginObj.username, password: this.loginObj.password}, options)
         this.localSave();
     }
     this.hasInfo = function () {
@@ -66,7 +69,7 @@ function Login($http, $rootScope) {
 
 (function (ons) {
     var login = null;
-    var app = ons.bootstrap('carthesioMobile', ['web2angular', 'ui.router']);
+    var app = ons.bootstrap('carthesioMobile', ['web2angular', 'ui.router', 'ngSanitize']);
     app.controller('AppController', function($scope, $rootScope, $http){
         login = new Login($http, $rootScope);
         var userDetailsShown = false;
@@ -81,10 +84,6 @@ function Login($http, $rootScope) {
             });
         } else {
             $rootScope.showLogin = true;
-        }
-        $scope.logout = function() {
-            login.logout();
-            $rootScope.showLogin = false;
         }
         
     });
@@ -101,6 +100,12 @@ function Login($http, $rootScope) {
                 $scope.errors = x.data.error;
             })
         }
+        $scope.logout = function() {
+            login.logout();
+            userDetails.hide().then(function() {
+                $rootScope.showLogin = true;
+            });
+        }
     });
 
     app.controller('condominio', function($scope, $rootScope, w2pResources) {
@@ -113,6 +118,11 @@ function Login($http, $rootScope) {
                 console.warn('trovati ' + c.length + ' condomini');
             }
         });
+        $scope.navigateDetails = function(obj) {
+            var url = 'templates/dettagli_' + obj.constructor._modelName + '.html';
+            $scope.item = obj;
+            condominioNavigator.pushPage(url);
+        }
     });
 
     ons.ready(function() {

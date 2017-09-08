@@ -1746,7 +1746,7 @@ var findControllerScope = function (scope) {
         };
         $interval(this.linkUnlinked, 400, null, false);
         $interval(function(){
-            $http.get('/' + $rootScope.options.application + '/api/live_again');
+            $http.get(base_url + $rootScope.options.application + '/api/live_again');
                 //.success(function(){
                 //    $.notify('Ciao');
                 //});

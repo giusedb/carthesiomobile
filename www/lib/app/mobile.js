@@ -3,8 +3,8 @@
  */
 "use strict";
 
-//var base_url = 'http://www.carthesio.it/';
-var base_url = 'http://2.236.16.80:8888/';
+var base_url = 'http://www.carthesio.it/';
+//var base_url = 'http://2.236.16.80:8888/';
 
 function Login($http, $rootScope) {
     if ('loginObj' in localStorage) {
@@ -51,6 +51,14 @@ function Login($http, $rootScope) {
             }
         }
     }
+    
+    this.logout = function() {
+        this.loginObj.username = null;
+        this.loginObj.password = null;
+        delete this.loginObj.sessionId;
+        console.warn('Logging out...', this.loginObj);
+        this.localSave();
+    }
     this.hasInfo = function () {
         return Boolean(this.loginObj.username && this.loginObj.password && this.loginObj.tenant);
     }
@@ -61,6 +69,7 @@ function Login($http, $rootScope) {
     var app = ons.bootstrap('carthesioMobile', ['web2angular', 'ui.router']);
     app.controller('AppController', function($scope, $rootScope, $http){
         login = new Login($http, $rootScope);
+        var userDetailsShown = false;
         $rootScope.showLogin = false;
         if (login.hasInfo()) {
             login.login(function(x){
@@ -73,6 +82,11 @@ function Login($http, $rootScope) {
         } else {
             $rootScope.showLogin = true;
         }
+        $scope.logout = function() {
+            login.logout();
+            $rootScope.showLogin = false;
+        }
+        
     });
 
     app.controller('loginController', function($scope, $rootScope) {

@@ -1,6 +1,21 @@
 <ons-page ng-controller="condominio as ctrl">
     <ons-splitter id="condominioSplitter">
-        <ons-splitter-side page="templates/menu_condominio.html" swipeable width="250px" collapse swipe-target-width="60px"></ons-splitter-side>
+        <ons-splitter-side page="templates/menu_condominio.html" swipeable width="250px" collapse swipe-target-width="160px"></ons-splitter-side>
         <ons-splitter-content></ons-splitter-content>
     </ons-splitter>
+
+    <ons-list>
+        <ons-list-item tappable>
+            Avvisi
+            <div class="right">
+                <ons-icon icon=""></ons-icon>
+            </div>
+        </ons-list-item>
+        <ons-list-item tappable>
+            Assemblee
+        </ons-list-item>
+        <ons-list-item tappable>
+            Informazioni sul condominio
+        </ons-list-item>
+    </ons-list>
 </ons-page>

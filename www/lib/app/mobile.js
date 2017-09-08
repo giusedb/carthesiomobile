@@ -3,8 +3,8 @@
  */
 "use strict";
 
-var base_url = 'http://www.carthesio.it/';
-// var base_url = 'http://localhost:8888/';
+//var base_url = 'http://www.carthesio.it/';
+var base_url = 'http://localhost:8888/';
 
 function Login($http, $rootScope) {
     if ('loginObj' in localStorage) {

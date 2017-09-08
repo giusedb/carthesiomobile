@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
@@ -21,45 +22,6 @@
 
 </head>
 <body>
-  <ons-page ng-controller="AppController as app">
-    <ons-toolbar>
-      <div class="center">
-        Carhtesio
-        <b ng-show="ilCondominio"> - {* ilCondominio.name *}</b>
-      </div>
-    </ons-toolbar>
-
-    <ons-tabbar position="auto" ng-if="!showLogin">
-        <ons-tab page="templates/condominio.html" label="Condominio" icon="ion-ios-home" active></ons-tab>
-        <ons-tab page="templates/documenti.html" label="Documenti" icon="ion-ios-folder"></ons-tab>
-    </ons-tabbar>
-    
-    <ons-card ng-if="showLogin" class="center" ng-controller="loginController as ctrl" >
-      <h3>Non sei connesso</h3>
-      <h5>Devi prima effettuare il login</h5>
-      <h3 style="color: red" ng-show="errors">{* errors *}</h3>
-      <ons-list>
-        <ons-list-header>Username</ons-list-header>
-        <ons-list-item>
-          <ons-input ng-model="loginObj.username" placeholder="mariorossi">
-        </ons-list-item>
-        <ons-list-header>Password</ons-list-header>
-        <ons-list-item>
-          <ons-input ng-model="loginObj.password" type="password" placeholder="la mia password segreta">
-        </ons-list-item>
-        <ons-list-header>Tenant</ons-list-header>
-        <ons-list-item>
-          <ons-input ng-model="loginObj.tenant" placeholder="carhtesio">
-        </ons-list-item>
-      </ons-list>
-      <ons-list-item>
-        <div class="center">
-          <ons-button tappable ng-click="ctrl.login()">
-            LogIn
-          </ons-button>
-        </div>
-      </ons-list-item>
-    </ons-card>
-  </ons-page>
+  <ons-navigator swipeable var="myNav" page="templates/main.html"></ons-navigator>
 </body>
 </html>

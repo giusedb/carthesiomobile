@@ -1,14 +1,28 @@
-<ons-page>
-    <ons-splitter id="condominioSplitter">
+<ons-page ng-controller="documentale as ctrl">
+    <ons-toolbar>
+      <div class="left" >
+        <ons-toolbar-button ng-click="condominioNavigator.popPage()" ng-if="condominioNavigator.pages.length > 1">
+            <ons-icon icon="ion-ios-arrow-back"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+      <div class="center">
+        <b ng-show="ilCondominio">Documenti</b>
+        </div>
+        <div class="right">
+            <ons-progress-circular indeterminate ng-show="waiting"></ons-progress-circular>
+            <ons-toolbar-button ng-hide="waiting" ng-click="userDetails.show($event)">
+                <ons-icon icon="ion-ios-person"></ons-icon>
+            </ons-toolbar-button>
+        </div>
+    </ons-toolbar>
+
+    <ons-splitter id="condominioSplitter" ng-if="pageIsActive">
         <ons-splitter-side page="templates/menu_documenti.html" swipeable width="250px" collapse swipe-target-width="100px"></ons-splitter-side>
         <ons-splitter-content></ons-splitter-content>
     </ons-splitter>
+    
     <ons-list>
-        <ons-list-header>
-            Files 
-        </ons-list-header>
-        <ons-list>
-            Ciao
-        </ons-list>
+        <ons-list-item>
+        </ons-list-item>
     </ons-list>
 </ons-page> 

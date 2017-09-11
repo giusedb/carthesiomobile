@@ -1,0 +1,13 @@
+<ons-page>
+    <ons-list>
+        <ons-list-header>Guasti segnalati dai condomini</ons-list-header>
+        <ons-list-item ng-repeat="guasto in ilCondominio.guasto_condominio_set">
+            <div class="left" ng-if="guasto.letto">
+                <ons-icon icon="fa-warning"></ons-icon>
+            </div>
+            <div class="center">
+                {* guasto.title *}
+            </div>
+        </ons-list-item>
+    </ons-list>
+</ons-page>

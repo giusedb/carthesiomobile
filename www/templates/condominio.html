@@ -1,8 +1,9 @@
+
 <ons-page ng-controller="condominio as ctrl">
     <ons-toolbar>
       <div class="left" >
         <ons-toolbar-button ng-click="condominioNavigator.popPage()" ng-if="condominioNavigator.pages.length > 1">
-            <ons-icon icon="ion-ios-arrow-back">Indietro</ons-icon>
+            <ons-icon icon="ion-ios-arrow-back"></ons-icon>
         </ons-toolbar-button>
       </div>
       <div class="center">
@@ -10,7 +11,8 @@
         <b ng-show="ilCondominio"> - {* ilCondominio.name *}</b>
         </div>
         <div class="right">
-            <ons-toolbar-button ng-click="userDetails.show($event)">
+            <ons-progress-circular indeterminate ng-show="waiting"></ons-progress-circular>
+            <ons-toolbar-button ng-hide="waiting" ng-click="userDetails.show($event)">
                 <ons-icon icon="ion-ios-person"></ons-icon>
             </ons-toolbar-button>
         </div>

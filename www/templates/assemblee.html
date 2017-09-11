@@ -3,8 +3,13 @@
         <ons-list-header>
             Assemblee del condominio {* ilCondominio.toString() *}
         </ons-list-header>
-        <ons-list-item ng-repeat="assemblea in ilCondominio.assemblea_condominio_set" tappable>
-            {* assemblea.secondo_luogo *} del {* assemblea.seconda_data | asdatetime *}
+        <ons-list-item modifier="chevron" ng-repeat="assemblea in ilCondominio.assemblea_condominio_set" tappable>
+            <div class="left">
+                {* assemblea.seconda_data | asdate *} 
+            </div>
+            <div class="center">
+                {* assemblea.secondo_luogo *}
+            </div
         </ons-list-item>
     </ons-list>
 </ons-page>

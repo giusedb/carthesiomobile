@@ -445,7 +445,8 @@ var findControllerScope = function (scope) {
             }
         });
         window.ErrorManager = MANAGEERROR;
-        var W2P_POST = function (resource, method, data, success, scope, options) {            
+        var W2P_POST = function (resource, method, data, success, scope, options) {
+            console.log('posting ' + resource + ' : ' + method);
             if ($rootScope.serverStatus != 'ready'){
                 return $timeout(function(){
                     W2P_POST(resource,method,data,success,scope,options);
@@ -467,6 +468,7 @@ var findControllerScope = function (scope) {
             } else if (!('Content-Type' in options.headers)) {
                 options.headers['Content-Type'] = 'text/plain';
             }
+            console.log('with options ' + JSON.stringify(data));
             return $http.post(url, data, options)
                 .success(function (data, status, xhr, config) {
                     if (success) {
@@ -1280,7 +1282,10 @@ var findControllerScope = function (scope) {
                         if (!('filter' in options)) {
                             GOT_ALL.source.push(resourceName);
                         }
-                        W2PRESOURCE.gotData(data, callBack);
+                        W2PRESOURCE.gotData(data, function(data){
+                            var objects = IDB[resourceName].values().filter(filterItems).toArray();
+                            callBack(objects);
+                        });
                     }, scope);
                 }
             }

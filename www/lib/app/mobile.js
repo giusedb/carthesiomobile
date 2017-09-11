@@ -30,14 +30,17 @@ function Login($http, $rootScope) {
                 if ((x.data) && ('error' in x.data)){
                     return reject(x);
                 }
+                console.log('logged in');
                 x.data.wheelTemplates = '/lib/rwt/templates/';
                 $rootScope.waiting = false;
                 self.loginObj.sessionId = x.data.session_id;
                 self.localSave();
                 callBack(x);
+                $rootScope.$broadcast('loggedIn');
             };
             var reject =  function(x) {
                 $rootScope.waiting = false;
+                console.log('log in failed')
                 if (x.status !== 200) {
                     errorBack({data: {error: 'Tenant not found'}});
                 } else {
@@ -47,19 +50,19 @@ function Login($http, $rootScope) {
             if (!force && self.loginObj.sessionId) {
                 $http.post(base_url + this.loginObj.tenant + '/api/status', {sessionId: self.loginObj.sessionId}, options)
                     .then(success, reject);
-            } else {
+            } else { 
                 $http.post(base_url + this.loginObj.tenant + '/api/login', {username: this.loginObj.username, password: this.loginObj.password}, options)
                     .then(success, reject);
-            }
+            } 
         }
     }
-    
+     
     this.logout = function() {
         this.loginObj.username = null;
         this.loginObj.password = null;
         delete this.loginObj.sessionId;
-        console.warn('Logging out...', this.loginObj);
-        $http.post(base_url + this.loginObj.tenant + '/api/login', {username: this.loginObj.username, password: this.loginObj.password}, options)
+        console.log('Logging out...', this.loginObj);
+        $http.post(base_url + this.loginObj.tenant + '/api/logout', {}, options)
         this.localSave();
     }
     this.hasInfo = function () {
@@ -70,13 +73,14 @@ function Login($http, $rootScope) {
 (function (ons) {
     var login = null;
     var app = ons.bootstrap('carthesioMobile', ['web2angular', 'ui.router', 'ngSanitize']);
-    app.controller('AppController', function($scope, $rootScope, $http){
+    app.controller('AppController', function($scope, $rootScope, $http, $timeout){
         login = new Login($http, $rootScope);
+        $rootScope.serverStatus = 'waiting';
+        $rootScope.realtimeConnected = false;
         var userDetailsShown = false;
-        $rootScope.showLogin = false;
-        if (login.hasInfo()) {
+        if (login.hasInfo()) { 
             login.login(function(x){
-                $rootScope.serverStatus = x.data.serverStatus || 'ready';
+                $rootScope.serverStatus = x.data.server_status || 'ready';
                 $rootScope.options = x.data
                 $rootScope.showLogin = false;
             }, function(x) {
@@ -85,44 +89,86 @@ function Login($http, $rootScope) {
         } else {
             $rootScope.showLogin = true;
         }
-        
+        $scope.$on('loggedIn', function() {
+            console.log('loggedIn event');
+            $scope.loggedIn = true;
+            $rootScope.serverStatus = $rootScope.options.server_status;
+            $timeout(function(){
+                mainTabbar.on('postchange', function(evt){
+                    $rootScope.activePage = evt.detail.index; 
+                });                
+            },1);
+        });
     });
 
-    app.controller('loginController', function($scope, $rootScope) {
+    app.controller('loginController', function($scope, $rootScope, $timeout) {
         $scope.loginObj = login.loginObj;
         $scope.errors = false;
         this.login = function() {
             login.login(function(x){
                 $rootScope.options = x.data;
                 $rootScope.showLogin = false;
+                $scope.loggedIn = true;
             }, function(x) {
+                $scope.loggedIn = false;
                 $rootScope.showLogin = true;
                 $scope.errors = x.data.error;
-            })
+            });
         }
         $scope.logout = function() {
             login.logout();
             userDetails.hide().then(function() {
                 $rootScope.showLogin = true;
+                $rootScope.loggedIn = false;
+                $timeout();
             });
         }
     });
 
     app.controller('condominio', function($scope, $rootScope, w2pResources) {
         $scope.condomini = [];
-        w2pResources.list('condominio', {}, null, function(c) { 
-            $scope.condomini = c;
-            if (c.length === 1) {
-                $rootScope.ilCondominio = c[0];
-            } else {
-                console.warn('trovati ' + c.length + ' condomini');
-            }
-        });
+        var afterLogin = function() {
+            console.log('afterLogin');
+            w2pResources.list('condominio', {}, null, function(c) { 
+                $scope.condomini = c;
+                if (c.length === 1) {
+                    $rootScope.ilCondominio = c[0];
+                } else {
+                    console.warn('trovati ' + c.length + ' condomini');
+                }
+            });
+        }
+        
+        if ($rootScope.serverStatus === 'ready') {
+            afterLogin();
+        } else {
+            $scope.$on('loggedIn', afterLogin);
+        }
+
         $scope.navigateDetails = function(obj) {
             var url = 'templates/dettagli_' + obj.constructor._modelName + '.html';
             $scope.item = obj;
             condominioNavigator.pushPage(url);
-        }
+        };
+    });
+
+    app.controller('documentale', function($scope, $timeout, w2pResources) {
+        $scope.pageIsActive = false;
+        $scope.currentFolder = $rootScope.ilCondominio._main_folder;
+        mainTabbar.on('postchange', function(evt){
+            $scope.pageIsActive = (evt.detail.index === 1);
+            $scope.$apply();
+        });
+
+        $scope.goToFolder = function(folder) {
+            if (folder.constructor.name === 'folder') {
+                $scope.currentFolder = folder;
+            } else {
+                w2pResources.getCached('folder', id, function(folder) {
+                    $scope.currentFolder = folder;
+                });
+            }
+        };
     });
 
     ons.ready(function() {

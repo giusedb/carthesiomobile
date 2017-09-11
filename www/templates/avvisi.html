@@ -1,9 +1,11 @@
 <ons-page>
-    <ons-card>
-        Avvisi del condominio {* ilCondominio.toString() *}
-    </ons-card>
     <ons-list>
-        <ons-list-item ng-repeat="avviso in ilCondominio.avviso_condominio_set | orderBy : 'created_on'" tappable ng-click="navigateDetails(avviso)">
+        <ons-list-header>
+            Avvisi del condominio {* ilCondominio.toString() *}
+        </ons-list-header>
+
+        <ons-list-item modifier="chevron" ng-repeat="avviso in ilCondominio.avviso_condominio_set | orderBy : 'created_on'" tappable ng-click="navigateDetails(avviso)">
+            <ons-icon icon="ion-checkmark-round" ng-if="!avviso.letto"></ons-icon>
             {* avviso.name *}
         </ons-list-item>
     </ons-list>

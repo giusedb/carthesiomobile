@@ -1,13 +1,17 @@
 <ons-page id="menuDocumenti">
     <ons-list>
-        <ons-list-item tappable ng-if="currentFolder.id !== ilCondominio._main_folder">
+        <ons-list-item tappable ng-if="currentFolder.id !== ilCondominio._main_folder" swipable ng-click="goToFolder(currentFolder.parent)">
             <ons-icon icon="fa-folder"></ons-icon>
             ..
         </ons-list>
 
-        <ons-list-item ng-repeat="folder in currentFolder.folder_parent_set" tappable>
-            <ons-icon icon="fa-folder"></ons-icon>
-            {* folder.name *}
+        <ons-list-item ng-repeat="folder in currentFolder.folder_parent_set" tappable modifier="chevron" ng-click="goToFolder(folder)">
+            <div class="left">
+                <ons-icon icon="fa-folder"></ons-icon>
+            </div>
+            <div class="center">
+                {* folder.name *}
+            </div>
         </ons-list>
     </ons-list>
 </ons-page> 

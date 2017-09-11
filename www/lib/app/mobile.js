@@ -32,6 +32,7 @@ function Login($http, $rootScope) {
                 }
                 console.log('logged in');
                 x.data.wheelTemplates = '/lib/rwt/templates/';
+                x.data.imgUrl = base_url + x.data.application + '/filemanager/thumbnails/';
                 $rootScope.waiting = false;
                 self.loginObj.sessionId = x.data.session_id;
                 self.localSave();
@@ -133,6 +134,7 @@ function Login($http, $rootScope) {
                 $scope.condomini = c;
                 if (c.length === 1) {
                     $rootScope.ilCondominio = c[0];
+                    $rootScope.$broadcast('condominioSelect');
                 } else {
                     console.warn('trovati ' + c.length + ' condomini');
                 }
@@ -152,10 +154,32 @@ function Login($http, $rootScope) {
         };
     });
 
-    app.controller('documentale', function($scope, $timeout, w2pResources) {
+    app.controller('documentale', function($scope, $rootScope, $timeout, w2pResources) {
         $scope.pageIsActive = false;
-        $scope.currentFolder = $rootScope.ilCondominio._main_folder;
-        mainTabbar.on('postchange', function(evt){
+        
+        w2pResources.addBuilderHandler('doc',function(Model) {
+            Object.defineProperty(Model.prototype, 'thumbUrl', {get : function() {
+                if (this.has_thumbnail) {
+                    return $rootScope.options.imgUrl + this.id + '.jpg';
+                } else {
+                    return base_url + $rootScope.options.application + '/static/img/unavailable.thumb.jpg';
+                }
+            }});
+        })
+
+        var getMainFolder = function() {
+            w2pResources.getCached('folder',[$rootScope.ilCondominio._main_folder], $scope, function(folders) {
+                $scope.currentFolder = folders[0];
+            });
+        };
+
+        if ($rootScope.ilCondominio) {
+            getMainFolder();
+        } else {
+            $scope.$on('condominioSelect', getMainFolder);
+        }
+        
+        mainTabbar.on('postchange', function(evt) {
             $scope.pageIsActive = (evt.detail.index === 1);
             $scope.$apply();
         });
@@ -169,6 +193,18 @@ function Login($http, $rootScope) {
                 });
             }
         };
+    });
+
+    app.directive('avatar', function () {
+        return {
+            scope: false,
+            template: function (element, attrs) {
+                var user = attrs.user;
+                return '<img title="{* ' + user + '.toString() *}" class="hvr-glow img-thumbnail img-circle img-responsive" ng-src="/{* options.application *}/static/img/avatars/{* ' + user + '.avatar *}.png" alt="{* ' + user + '.toString() *}"/>';
+            },
+            link: function (scope, element, attrs) {
+            }
+        }
     });
 
     ons.ready(function() {

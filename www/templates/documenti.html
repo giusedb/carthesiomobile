@@ -1,7 +1,7 @@
 <ons-page ng-controller="documentale as ctrl">
     <ons-toolbar>
       <div class="left" >
-        <ons-toolbar-button ng-click="condominioNavigator.popPage()" ng-if="condominioNavigator.pages.length > 1">
+        <ons-toolbar-button ng-click="goToFolder(currentFolder.parent)" ng-if="currentFolder._parent">
             <ons-icon icon="ion-ios-arrow-back"></ons-icon>
         </ons-toolbar-button>
       </div>
@@ -15,68 +15,5 @@
             </ons-toolbar-button>
         </div>
     </ons-toolbar>
-
-    <ons-splitter id="condominioSplitter" ng-if="pageIsActive">
-        <ons-splitter-side page="templates/menu_documenti.html" swipeable width="250px" collapse swipe-target-width="100px"></ons-splitter-side>
-        <ons-splitter-content></ons-splitter-content>
-    </ons-splitter>
-    
-    <ons-card>
-<!--
-        <ons-row>
-            <ons-col width="70%">
-                <ons-icon icon="fa-folder-open"></ons-icon>
-                {* currentFolder.name *}
-            </ons-col>
-            <ons-col width="30%">
-                <ons-icon icon="ion-ios-information"></ons-icon>
-            </ons-col>
-        </ons-row>
--->
-        <h4>
-            <ons-button modifier="quiet" style="float:right;" ng-click="folderPopOver.show($event)">
-                <ons-icon icon="ion-ios-information"></ons-icon>
-            </ons-button>
-            <ons-icon icon="fa-folder-open"></ons-icon>
-            {* currentFolder.name *}
-        </h4>
-        <ons-dialog var="folderPopOver" direction="down" cancelable>
-            <div style="padding:20px;">
-                <h2 style="text-align:center;">
-                    <ons-icon icon="ion-ios-information"></ons-icon>
-                </h2>
-                <table>
-                    <tr>
-                        <td><strong>Titolo:</strong></td>
-                        <td>{* currentFolder.title *}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Percorso:</strong></td>
-                        <td>{* currentFolder.fullpath *}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Creato da:</strong></td>
-                        <td>{* currentFolder.created_by.toString() *}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Creato il:</strong></td>
-                        <td>{* currentFolder.created_on | asdate *}</td>
-                    </tr>
-
-                </table>
-            </div>
-        </ons-dialog>
-    </ons-card>
-    <ons-list>
-        <ons-list-item ng-repeat="doc in currentFolder.doc_parent_set" modifier="chevron">
-              <div class="left">
-                <img class="list-item__thumbnail" ng-src="{* doc.thumbUrl *}" alt="{* doc.name *}"/>
-              </div>
-              <div class="center">
-                <span class="list-item__title">{* doc.name *}.{* doc.extension *}</span>
-                <span class="list-item__subtitle">{* doc.title *}</span>
-              </div>
-            
-        </ons-list-item>
-    </ons-list>
-</ons-page> 
+    <ons-navigator swipeable var="documentNavigator" page="templates/folder_list.html"></ons-navigator>
+</ons-page>

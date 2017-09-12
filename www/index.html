@@ -22,6 +22,32 @@
 
 </head>
 <body>
+  <ons-modal var="documentViewer" direction="up" onDeviceBackButton="documentViewer.hide($event)" animation="fade">
+    <ons-page ng-controller="docDetail as ctrl">
+      <ons-toolbar>
+        <div class="left">
+          <ons-toolbar-button>
+            <ons-icon icon="fa-folder"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+        <div class="center">
+          {* doc.title *}
+        </div>
+        <div class="right">
+          <ons-toolbar-button ng-click="documentViewer.hide($event)">
+            <ons-icon icon="fa-close"></ons-icon>
+          </ons-toolbar-button>
+        </div>
+      </ons-toolbar>
+      <ons-card>
+        <div class="fullImage" style="background-image: url('{* doc.imgUrl *}');"></div>
+        <h3>{* doc.name *} <div class="badge" ng-repeat="metaclass in doc.metaclasss">{* metaclass.toString() *}</div></h3>
+        <h5>{* doc.title *}</h5>
+        <p>{* doc.description *}</p>
+        
+      </ons-card>
+    </ons-page>
+  </ons-modal>
   <ons-progress-bar indeterminate></ons-progress-bar>
   <ons-navigator swipeable var="myNav" page="templates/main.html"></ons-navigator>
 </body>

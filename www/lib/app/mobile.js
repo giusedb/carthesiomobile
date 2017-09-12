@@ -32,7 +32,8 @@ function Login($http, $rootScope) {
                 }
                 console.log('logged in');
                 x.data.wheelTemplates = '/lib/rwt/templates/';
-                x.data.imgUrl = base_url + x.data.application + '/filemanager/thumbnails/';
+                x.data.thumbUrl = base_url + x.data.application + '/filemanager/thumbnails/';
+                x.data.imgUrl = base_url + x.data.application + '/filemanager/previews/';
                 $rootScope.waiting = false;
                 self.loginObj.sessionId = x.data.session_id;
                 self.localSave();
@@ -74,10 +75,36 @@ function Login($http, $rootScope) {
 (function (ons) {
     var login = null;
     var app = ons.bootstrap('carthesioMobile', ['web2angular', 'ui.router', 'ngSanitize']);
-    app.controller('AppController', function($scope, $rootScope, $http, $timeout){
+    app.controller('AppController', function($scope, $rootScope, $http, $timeout, w2pResources){
         login = new Login($http, $rootScope);
         $rootScope.serverStatus = 'waiting';
         $rootScope.realtimeConnected = false;
+        $rootScope.showDoc = function(doc) {
+            if (doc.constructor.name === 'doc') {
+                doc = doc.id;
+            }
+            $rootScope.$broadcast('showDoc', doc);
+        }
+
+        w2pResources.addBuilderHandler('doc',function(Model) {
+            Object.defineProperty(Model.prototype, 'thumbUrl', {get : function() {
+                if (this.has_thumbnail) {
+                    return $rootScope.options.thumbUrl + this.id + '.jpg';
+                } else {
+                    return base_url + $rootScope.options.application + '/static/img/unavailable.thumb.jpg';
+                }
+            }});
+
+            Object.defineProperty(Model.prototype, 'imgUrl', {get : function() {
+                if (this.has_preview) {
+                    return $rootScope.options.imgUrl + this.id + '.jpg';
+                } else {
+                    return base_url + $rootScope.options.application + '/static/img/unavailable.thumb.jpg';
+                }
+            }});            
+        });
+
+
         var userDetailsShown = false;
         if (login.hasInfo()) { 
             login.login(function(x){
@@ -100,6 +127,7 @@ function Login($http, $rootScope) {
                 });                
             },1);
         });
+
     });
 
     app.controller('loginController', function($scope, $rootScope, $timeout) {
@@ -156,21 +184,25 @@ function Login($http, $rootScope) {
 
     app.controller('documentale', function($scope, $rootScope, $timeout, w2pResources) {
         $scope.pageIsActive = false;
+        var folderStack = [];
         
-        w2pResources.addBuilderHandler('doc',function(Model) {
-            Object.defineProperty(Model.prototype, 'thumbUrl', {get : function() {
-                if (this.has_thumbnail) {
-                    return $rootScope.options.imgUrl + this.id + '.jpg';
-                } else {
-                    return base_url + $rootScope.options.application + '/static/img/unavailable.thumb.jpg';
-                }
-            }});
-        })
-
         var getMainFolder = function() {
             w2pResources.getCached('folder',[$rootScope.ilCondominio._main_folder], $scope, function(folders) {
                 $scope.currentFolder = folders[0];
+                folderStack.push($scope.currentFolder.id);
             });
+        };
+
+        var goToFolder = function(folder) {
+            if ($scope.currentFolder._parent === folder.id) {
+                documentNavigator.insertPage(0,'templates/folder_list.html').then(function() {
+                    documentNavigator.popPage();                
+                })
+            } else {
+                documentNavigator.pushPage('templates/folder_list.html');
+            }
+            folderStack.unshift($scope.currentFolder.id);
+            $scope.currentFolder = folder;
         };
 
         if ($rootScope.ilCondominio) {
@@ -180,19 +212,43 @@ function Login($http, $rootScope) {
         }
         
         mainTabbar.on('postchange', function(evt) {
+
+            $rootScope.activeNavigator = 
             $scope.pageIsActive = (evt.detail.index === 1);
             $scope.$apply();
         });
 
+        $timeout(function(){
+            documentNavigator.on('postpush', function(evt) {
+                documentNavigator.removePage(0);
+                $timeout(function(){
+                    console.log(documentNavigator.pages);
+                });
+            });
+        })
+
         $scope.goToFolder = function(folder) {
             if (folder.constructor.name === 'folder') {
-                $scope.currentFolder = folder;
+                goToFolder(folder);
             } else {
-                w2pResources.getCached('folder', id, function(folder) {
-                    $scope.currentFolder = folder;
+                w2pResources.getCached('folder', folder.id, function(folder) {
+                    goToFolder(folder);
                 });
             }
         };
+    });
+
+    app.controller('docDetail', function($scope, $parse, $attrs, w2pResources) {
+        $scope.$on('showDoc', function(evt, id) {
+            w2pResources.getCached('doc',[id], null, function(docs){
+                if (docs.length) {
+                    $scope.doc = docs[0];
+                } else {
+                    $scope.doc = null;
+                }
+                documentViewer.show(evt);
+            });
+        });
     });
 
     app.directive('avatar', function () {

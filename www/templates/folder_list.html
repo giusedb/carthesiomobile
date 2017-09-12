@@ -1,0 +1,73 @@
+<ons-page>
+    <ons-card ng-if="currentFolder.id !== ilCondominio._main_folder">
+        <h4>
+            <ons-button modifier="quiet" style="float:right;" ng-click="folderPopOver.show($event)">
+                <ons-icon icon="ion-ios-information"></ons-icon>
+            </ons-button>
+            <ons-icon icon="fa-folder-open"></ons-icon>
+            {* currentFolder.name *}
+        </h4>
+        <ons-dialog var="folderPopOver" direction="down" cancelable>
+            <div style="padding:20px;">
+                <h2 style="text-align:center;">
+                    <ons-icon icon="ion-ios-information"></ons-icon>
+                </h2>
+                <table>
+                    <tr>
+                        <td><strong>Titolo:</strong></td>
+                        <td>{* currentFolder.title *}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Percorso:</strong></td>
+                        <td>{* currentFolder.fullpath *}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Creato da:</strong></td>
+                        <td>{* currentFolder.created_by.toString() *}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Creato il:</strong></td>
+                        <td>{* currentFolder.created_on | asdate *}</td>
+                    </tr>
+
+                </table>
+            </div>
+        </ons-dialog>
+    </ons-card>
+    <ons-list ng-if="pageIsActive">
+        <ons-list-header>Cartelle</ons-list-header>
+<!--
+        <ons-list-item tappable ng-if="currentFolder.id !== ilCondominio._main_folder" swipable ng-click="goToFolder(currentFolder.parent)">
+            <div class="left">
+                <ons-icon icon="fa-folder"></ons-icon>
+            </div>
+            <div class="center">
+                ..
+            </div>
+        </ons-list-item>
+-->
+        <ons-list-item ng-repeat="folder in currentFolder.folder_parent_set" tappable modifier="chevron" ng-click="goToFolder(folder)">
+            <div class="left">
+                <ons-icon icon="fa-folder"></ons-icon>
+            </div>
+            <div class="center">
+                {* folder.name *}
+            </div>
+        </ons-list-item>   
+        <ons-list-header>Documenti</ons-list-header>
+        <ons-list-item ng-repeat="doc in currentFolder.doc_parent_set" modifier="chevron" ng-click="showDoc(doc.id)">
+              <div class="left">
+                <img class="list-item__thumbnail" ng-src="{* doc.thumbUrl *}" alt="{* doc.name *}"/>
+              </div>
+              <div class="center">
+                <span class="list-item__title">{* doc.name *}.{* doc.extension *}</span>
+                <span class="list-item__subtitle">
+                    {* doc.title *}
+                    <div class="badge" ng-repeat="meta in doc.metaclasss"> 
+                        {* meta.toString() *}
+                    </div>
+                </span>
+              </div>
+        </ons-list-item>
+    </ons-list>
+</ons-page>

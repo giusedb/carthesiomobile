@@ -194,6 +194,7 @@ function Login($http, $rootScope) {
         };
 
         var goToFolder = function(folder) {
+/*
             if ($scope.currentFolder._parent === folder.id) {
                 documentNavigator.insertPage(0,'templates/folder_list.html').then(function() {
                     documentNavigator.popPage();                
@@ -202,6 +203,7 @@ function Login($http, $rootScope) {
                 documentNavigator.pushPage('templates/folder_list.html');
             }
             folderStack.unshift($scope.currentFolder.id);
+*/            
             $scope.currentFolder = folder;
         };
 

@@ -1,0 +1,49 @@
+<waiter></waiter>
+<div ng-hide="waiting">
+    <form name="{* resourceName *}" novalidate ng-submit="send(obj)" >
+<!--
+        <ons-list>
+            <ons-list-title>{* title *}</ons-list-title>
+            <ons-list-item modifier="nodivider" ng-repeat="field in showFields">
+                <div class="left left-label">
+                    <label for="{* field.id *}"><ons-label>{* field.name *}</ons-label></label>
+                </div>
+                <div class="center">
+                    <ng-include style="width: 100%" src="'/lib/rwt/templates/fields/' + (field.template||field.type) + '.html'"></ng-include>
+                </div>
+            </ons-list-item>
+        </ons-list>
+        <ons-row ng-repeat="field in showFields">
+            <ons-col width="33%">
+                <ons-label>
+                    {* field.name *}
+                </ons-label>
+            </ons-col>
+            <ons-col width="66%">
+                <ng-include src="'/lib/rwt/templates/fields/' + (field.template||field.type) + '.html'"></ng-include>
+            </ons-col>
+        </ons-row>
+-->        
+        <table class="form-table">
+            <tr ng-repeat="field in showFields">
+                <td>
+                    <label for="{* field.id *}">{* field.name *}</label>
+                </td>
+                <td>
+                    <ng-include src="'/lib/rwt/templates/fields/' + (field.template||field.type) + '.html'"></ng-include>
+                    <div class="alert alert-danger" role="alert" ng-if="errors[field.id]">
+                        <strong><h4>{* errors[field.id] *}</h4></strong>
+                    </div>
+                </td>
+            </tr>
+            <tr ng-show="showOk && edit">
+                <td></td>
+                <td><input type="submit" value="Ok" class="btn btn-success"/></td>
+            </tr>
+            <tr ng-if="footer">
+                <td colspan="2" ng-bind-html=""></td>
+            </tr>
+        </table>
+    
+    </form>
+</div>

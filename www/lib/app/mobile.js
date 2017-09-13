@@ -3,8 +3,8 @@
  */
 "use strict";
 
-var base_url = 'http://www.carthesio.it/';
-//var base_url = 'http://2.236.16.80:8888/';
+//var base_url = 'http://www.carthesio.it/';
+var base_url = 'http://2.236.16.80:8888/';
 
 function Login($http, $rootScope) {
     var options = {headers: {'Content-Type' : 'text/plain'}};
@@ -40,6 +40,7 @@ function Login($http, $rootScope) {
                 callBack(x);
                 $rootScope.$broadcast('loggedIn');
             };
+            
             var reject =  function(x) {
                 $rootScope.waiting = false;
                 console.log('log in failed')
@@ -49,6 +50,7 @@ function Login($http, $rootScope) {
                     errorBack(x);
                 }
             };
+
             if (!force && self.loginObj.sessionId) {
                 $http.post(base_url + this.loginObj.tenant + '/api/status', {sessionId: self.loginObj.sessionId}, options)
                     .then(success, reject);
@@ -89,7 +91,7 @@ function Login($http, $rootScope) {
         w2pResources.addBuilderHandler('doc',function(Model) {
             Object.defineProperty(Model.prototype, 'thumbUrl', {get : function() {
                 if (this.has_thumbnail) {
-                    return $rootScope.options.thumbUrl + this.id + '.jpg';
+                    return $rootScope.options.thumbUrl + this.id + '.jpg?_session_id=' + $rootScope.options.session_id;
                 } else {
                     return base_url + $rootScope.options.application + '/static/img/unavailable.thumb.jpg';
                 }
@@ -97,13 +99,24 @@ function Login($http, $rootScope) {
 
             Object.defineProperty(Model.prototype, 'imgUrl', {get : function() {
                 if (this.has_preview) {
-                    return $rootScope.options.imgUrl + this.id + '.jpg';
+                    return $rootScope.options.imgUrl + this.id + '.jpg?_session_id=' + $rootScope.options.session_id;
                 } else {
                     return base_url + $rootScope.options.application + '/static/img/unavailable.thumb.jpg';
                 }
             }});            
+
+            Model.prototype.download = function () {
+                this.downloader(function (x) {
+                    document.getElementById('downFrame').setAttribute('src', base_url + x.slice(1) + '?_session_id=' + $rootScope.options.session_id);
+                })
+            }
         });
 
+        w2pResources.addBuilderHandler('verbale',function(Model) {
+            Model.toString = function() {
+                return this.seconda_data + ' presso ' + this.secondo_luogo;
+            };
+        });
 
         var userDetailsShown = false;
         if (login.hasInfo()) { 
@@ -241,7 +254,9 @@ function Login($http, $rootScope) {
     });
 
     app.controller('docDetail', function($scope, $parse, $attrs, w2pResources) {
+        $scope.base_url = base_url;
         $scope.$on('showDoc', function(evt, id) {
+            $scope.fullPreview = false;
             w2pResources.getCached('doc',[id], null, function(docs){
                 if (docs.length) {
                     $scope.doc = docs[0];
@@ -251,6 +266,11 @@ function Login($http, $rootScope) {
                 documentViewer.show(evt);
             });
         });
+
+        $scope.toggleFull = function() {
+            // mostra integralmente il pdf del documento
+            $scope.fullPreview = !$scope.fullPreview;
+        }
     });
 
     app.directive('avatar', function () {

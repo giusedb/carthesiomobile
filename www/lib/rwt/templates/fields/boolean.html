@@ -1,6 +1,9 @@
+<!--
 <div class="inline-full" ng-if="edit">
     <boolean object="obj" attr='field.id' value="field.name"></boolean>
 </div>
 <span ng-if="!edit">
     <span class="mdi" ng-class="{'mdi-checkbox-blank-outline' : !obj[field.id] , 'mdi-checkbox-marked-outline' : obj[field.id]}"></span>
 </span>
+-->
+<ons-switch ng-model="obj[field.id]" disabled="!edit"></ons-switch>

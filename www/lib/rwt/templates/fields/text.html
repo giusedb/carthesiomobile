@@ -1,3 +1,4 @@
+<!--
 <div class="inline-full" ng-if="edit && field.writable">
     <textarea
         ng-model="obj[field.id]"
@@ -9,6 +10,16 @@
         style="width:100%;"
     ></textarea>
 </div>
+-->
+<textarea class="textarea" ng-if="edit && field.writable" style="width: 100%;"
+        ng-model="obj[field.id]"
+        placeholder="{* field.name *}"
+        ng-required="field.validators.requred"
+        ng-minlength="field.validators.minlength"
+        ng-maxlength="field.validators.maxlength"
+        ng-pattern="field.validators.pattern"
+        rows="5"
+        placeholder="{* field.name *}"></textarea>
 <span ng-if="!(edit && field.writable)">
     {* obj[field.id] *}
 </span>

@@ -26,30 +26,44 @@
     <ons-page ng-controller="docDetail as ctrl">
       <ons-toolbar>
         <div class="left">
-          <ons-toolbar-button>
-            <ons-icon icon="fa-folder"></ons-icon>
+          <ons-toolbar-button ng-click="documentViewer.hide($event)">
+            <ons-icon icon="ion-ios-arrow-back"></ons-icon>
           </ons-toolbar-button>
         </div>
         <div class="center">
-          {* doc.title *}
+          {* doc.name || doc.title *}
         </div>
         <div class="right">
-          <ons-toolbar-button ng-click="documentViewer.hide($event)">
-            <ons-icon icon="fa-close"></ons-icon>
-          </ons-toolbar-button>
+            <ons-progress-circular indeterminate ng-show="waiting"></ons-progress-circular>
+            <ons-toolbar-button ng-hide="waiting" ng-click="doc.download()">
+                <ons-icon icon="ion-ios-cloud-download-outline" ></ons-icon>
+            </ons-toolbar-button>
+            <ons-toolbar-button ng-hide="waiting || !doc.has_pdf" ng-click="toggleFull()">
+                <ons-icon icon="ion-ios-eye-outline"></ons-icon>
+            </ons-toolbar-button>
         </div>
       </ons-toolbar>
-      <ons-card>
+      <div ng-if="fullPreview" style="height:90%; width:100%;">
+        <iframe src="/lib/pdfjs/web/viewer.html?file=http%3A%2F%2F2.236.16.80%3A8888%2Fcarthesio%2Ffilemanager%2Ffile_view%2F73.pdf%3F_session_id%3D50%3A4d30c9f9-e847-4f27-9273-bf9f603b7b13"></iframe>
+        <!-- 
+        <iframe id="framed" ng-src="{* '/lib/pdfjs/web/viewer.html?file=' + base_url + options.application + '/filemanager/file_view/' + doc.id + '?_session_id=' + options.session_id *}" width="100%" height="100%"></iframe>
+  -->
+      </div>
+      <ons-card ng-if="!fullPreview">
         <div class="fullImage" style="background-image: url('{* doc.imgUrl *}');"></div>
         <h3>{* doc.name *} <div class="badge" ng-repeat="metaclass in doc.metaclasss">{* metaclass.toString() *}</div></h3>
         <h5>{* doc.title *}</h5>
         <p>{* doc.description *}</p>
-        
+      </ons-card>
+      <ons-card ng-repeat="meta in doc.metaclasss">
+        <h5>{* meta.toString() *}</h5>
+        <model-form resource="{* meta.name *}" record="doc.id" hidden-fields="doc,condominio"></model-form>
       </ons-card>
     </ons-page>
   </ons-modal>
   <ons-progress-bar indeterminate></ons-progress-bar>
   <ons-navigator swipeable var="myNav" page="templates/main.html"></ons-navigator>
+  <iframe src="" frameborder="0" width="1" height="1" id="downFrame"></iframe>
 </body>
 </html>
  

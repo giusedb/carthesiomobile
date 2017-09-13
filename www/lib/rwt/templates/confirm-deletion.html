@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h3 class="modal-title">
+        Conferma l&apos;eliminazione della cartella {* file.name *}
+    </h3>
+</div>
+<div class="modal-body">
+    <div class="alert alert-warning">
+        ATTENZIONE : Eliminando la cartella {* file.name *} verranno rimossi anche il file riportati di seguito
+        <p ng-hide="waiting">{* warning *}</p>
+    </div>
+    <div style="text-align: center;color:#aaa;" ng-show="waiting">
+        <span class="fa fa-spin fa-refresh fa-15x"></span>
+    </div>
+    <div style="max-height: 280px; overflow-x: scroll;">
+        <ul class="list-group" ng-hide="waiting">
+            <li class="list-group-item" ng-repeat="file in descendants">
+                {* file.fileName *}
+                <div class="badge">{* file.type *}</div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" ng-click="ok()" >Conferma</button>
+    <button class="btn btn-warning" ng-click="cancel()">Chiudi</button>
+</div>

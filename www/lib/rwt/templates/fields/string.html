@@ -1,3 +1,4 @@
+<!--
 <div class="inline-full" ng-if="edit && field.writable">
     <input ng-if="!field.validators.valid"
         type="text"
@@ -13,3 +14,14 @@
 <span ng-if="!(edit && field.writable)">
     {* obj[field.id] *}
 </span>
+-->
+<ons-input style="width: 100%;" type="text"
+           ng-required="field.validators.requred"
+           ng-minlength="field.validators.minlength"
+           ng-maxlength="field.validators.maxlength"
+           ng-pattern="field.validators.pattern"
+           ng-model="obj[field.id]" 
+           ng-if="edit"
+           placeholder="{* field.name *}"
+           input-id="{* field.id *}"></ons-input>
+<span ng-if="!edit">{* obj[field.id] *} </span>

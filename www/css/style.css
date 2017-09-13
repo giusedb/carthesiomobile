@@ -11,8 +11,8 @@ div.badge {
 }
 
 .fullImage {
-    height: 500px;
-    width: 90%;
+    height: 400px;
+    width: 100%;
     background-repeat: no-repeat;
     background-size: contain;
 }
@@ -24,4 +24,12 @@ div.badge {
     border-radius: 4px;
     padding: 3px;
     margin-right: 26px;    
+}
+
+table.form-table {
+
+}
+
+table.form-table td {
+    height: 44px;
 }

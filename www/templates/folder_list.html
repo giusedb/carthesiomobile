@@ -1,4 +1,5 @@
 <ons-page>
+    <!--
     <ons-card ng-if="currentFolder.id !== ilCondominio._main_folder">
         <h4>
             <ons-button modifier="quiet" style="float:right;" ng-click="folderPopOver.show($event)">
@@ -34,6 +35,7 @@
             </div>
         </ons-dialog>
     </ons-card>
+    -->
     <ons-list ng-if="pageIsActive">
         <ons-list-header>Cartelle</ons-list-header>
 <!--
@@ -46,7 +48,7 @@
             </div>
         </ons-list-item>
 -->
-        <ons-list-item ng-repeat="folder in currentFolder.folder_parent_set" tappable modifier="chevron" ng-click="goToFolder(folder)">
+        <ons-list-item ng-repeat="folder in currentFolder.folder_parent_set | orderBy: 'name'" tappable modifier="chevron" ng-click="goToFolder(folder)">
             <div class="left">
                 <ons-icon icon="fa-folder"></ons-icon>
             </div>
@@ -70,4 +72,5 @@
               </div>
         </ons-list-item>
     </ons-list>
+
 </ons-page>

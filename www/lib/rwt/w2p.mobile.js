@@ -194,7 +194,7 @@ var findControllerScope = function (scope) {
             var ret = $http.post(url, data);
             ret.error(function (data, status, evt, xhr) {
                 var instance = $uibModal.open({
-                    templateUrl: '/' + $rootScope.options.application + '/static/plugin_angular/templates/' + ((status == 512) ? 'message.html' : 'error.html'),
+                    templateUrl: '/lib/rwt/templates/' + ((status == 512) ? 'message.html' : 'error.html'),
                     size: 'lg',
                     controller: function ($scope) {
                         if (status == 512) {
@@ -2133,7 +2133,7 @@ var findControllerScope = function (scope) {
                         return $rootScope.options.baseTemplates + attrs.templateUrl;
                     }
                 }
-                return '/' + $rootScope.options.application + '/static/plugin_angular/templates/model-form.html';
+                return '/lib/rwt/templates/model-form.html';
             },
             link: function (scope, elem, attrs) {
                 if (attrs.parentScope) {
@@ -2573,13 +2573,14 @@ var findControllerScope = function (scope) {
                             '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>' +
                             '<strong><h4>{* errors[field.id] *}</h4></strong>' +
                             '</div>';
-                        elem.html(data.data + errors);
+                        elem.html(data.data2 + errors);
                         $compile(elem.contents())(scope);
                         formScope.$watch('obj', changeObj);
                     };
                     if (!gotTemplate && template) {
                         gotTemplate = true;
-                        $http.get('/' + scope.options.application + '/static/plugin_angular/templates/fields/' + template + '.html', {cache: $templateCache})
+//                        $http.get('/' + scope.options.application + '/static/plugin_angular/templates/fields/' + template + '.html', {cache: $templateCache})
+                        $http.get('/lib/rwt/templates/fields/' + template + '.html', {cache: $templateCache})
                             .then(replace);
                     }
                 };

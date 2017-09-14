@@ -1,0 +1,44 @@
+  <ons-page ng-controller="AppController as app">
+    <ons-tabbar position="bottom" ng-if="loggedIn" var="mainTabbar" animation="slide">
+        <ons-tab page="templates/condominio.html" label="Condominio" icon="ion-ios-home" ></ons-tab>
+        <ons-tab page="templates/documenti.html" label="Documenti" icon="ion-ios-folder" active></ons-tab>
+        <ons-tab page="templates/discussioni.html" label="Discussioni" icon="ion-ios-chatboxes"></ons-tab>
+        <ons-tab page="templates/search.html" label="Ricerca" icon="ion-ios-search"></ons-tab>
+    </ons-tabbar>
+    
+    <ons-popover var="userDetails" direction="down" animation="fade-md" cancelable ng-controller="loginController">
+      <div style="padding: 10px; text-align: center;">
+        <h5>{* options.user.first_name *} {* options.user.last_name *}</h5>
+        <ons-button ng-click="logout()">
+            Logout
+        </ons-button>
+      </div>
+    </ons-popover>      
+     
+    <ons-card ng-if="showLogin" class="center" ng-controller="loginController as ctrl" >
+      <h3>Non sei connesso</h3>
+      <h5>Devi prima effettuare il login</h5>
+      <h3 style="color: red" ng-show="errors">{* errors *}</h3>
+      <ons-list>
+        <ons-list-header>Username</ons-list-header>
+        <ons-list-item>
+          <ons-input ng-model="loginObj.username" placeholder="mariorossi">
+        </ons-list-item>
+        <ons-list-header>Password</ons-list-header>
+        <ons-list-item>
+          <ons-input ng-model="loginObj.password" type="password" placeholder="la mia password segreta">
+        </ons-list-item>
+        <ons-list-header>Tenant</ons-list-header>
+        <ons-list-item>
+          <ons-input ng-model="loginObj.tenant" placeholder="carhtesio">
+        </ons-list-item>
+      </ons-list>
+      <ons-list-item>
+        <div class="center">
+          <ons-button tappable ng-click="ctrl.login()">
+            LogIn
+          </ons-button>
+        </div>
+      </ons-list-item>
+    </ons-card>
+  </ons-page>

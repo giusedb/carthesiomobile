@@ -1,0 +1,15 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "de.cyberkatze.phonegap.plugin.PdfViewer": {
+            "PACKAGE_NAME": "com.example.helloworld"
+        }
+    },
+    "dependent_plugins": {}
+}

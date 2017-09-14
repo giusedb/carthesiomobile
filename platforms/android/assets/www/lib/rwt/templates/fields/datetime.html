@@ -1,0 +1,9 @@
+<span class="inline-full" ng-hide="edit && field.writable">
+    {* obj[field.id] | asdatetime *}
+</span>
+<span ng-show="edit && field.writable">
+    <span class="btn btn-default" uib-btn-checkbox ng-model="showDates[field.id]">{* obj[field.id] | asdatetime *}</span>
+    <span ng-if="showDates[field.id]">
+        <datetimepicker data-ng-model="obj[field.id]" data-datetimepicker-config="{ startView:'day'}" data-on-set-time="showDates[field.id] = false"></datetimepicker>
+    </span>
+</span>

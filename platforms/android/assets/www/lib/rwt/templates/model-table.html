@@ -1,0 +1,43 @@
+
+<div ng-show="waiting" class="text-center">
+    <span class="fa fa-refresh fa-spin fa-15x"></span>
+    <hr>
+    ... sending to server ...
+</div>
+<form name="{* resourceName *}" novalidate ng-submit="$senddata(obj)" ng-hide="waiting">
+    <table class="table table-striped">
+        <tr ng-repeat="field in showFields">
+            <td>
+                <label for="{* field.id *}">{* field.name *}</label>
+            </td>
+            <td>
+                <span ng-if="field.template" ng-include="'/' + options.application + '/static/plugin_angular/templates/fields/' + field.template + '.html'"></span>
+                <span ng-if="!field.template">
+                    <span ng-if="!(edit && field.writable)">
+                        {* obj[field.id] *}
+                    </span>
+                    <input
+                        ng-if="edit && field.writable"
+                        title="{* field.comment *}"
+                        type="{* field.atype *}"
+                        ng-model="obj[field.id]"
+                        placeholder="{* field.name *}"
+                        ng-required="(field.type != 'boolean') && field.validators.required"
+                        ng-minlength="field.validators.minlength"
+                        ng-maxlength="field.validators.maxlength"
+                        ng-pattern="field.validators.pattern"
+                        min="{* field.validators.min?field.validators.min:0 *}"
+                        max="{* field.validators.max?field.validators.max:'' *}"
+                        style="width: 100%;"
+                    />
+                </span>
+                <div class="error" ng-if="errors[field.id]  ">{* errors[field.id] *}</div>
+            </td>
+        </tr>
+            {* generalErrors *}
+            <tr ng-show="showOk && edit">
+            <td></td>
+            <td><input type="submit" value="Ok" class="btn btn-success"/> </td>
+        </tr>
+    </table>
+</form>

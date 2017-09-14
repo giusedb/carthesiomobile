@@ -1,0 +1,25 @@
+<ons-page id="menuCondominio">
+    <ons-list>
+        <ons-list-header>Condominio</ons-list-header>
+
+        <ons-list-item modifier="chevron" tappable ng-click="condominioNavigator.pushPage('templates/avvisi.html')">
+            <div class="center">Avvisi</div>
+            <div class="left"><ons-icon icon="ion-calendar"></ons-icon></div>
+        </ons-list-item>
+
+        <ons-list-item modifier="chevron" tappable ng-click="condominioNavigator.pushPage('templates/assemblee.html')">
+            Assemblee
+            <div class="left"><ons-icon icon="ion-ios-people"></ons-icon></div>
+        </ons-list-item>
+
+        <ons-list-item modifier="chevron" tappable ng-click="condominioNavigator.pushPage('templates/guasti.html')">
+            Guasti
+            <div class="left"><ons-icon icon="ion-hammer"></ons-icon></div>
+        </ons-list-item>
+
+        <ons-list-item modifier="chevron" tappable ng-click="condominioNavigator.pushPage('templates/amministratore.html')">
+            Informazioni amministratore
+            <div class="left"><ons-icon icon="ion-android-home"></ons-icon></div>
+        </ons-list-item>
+    </ons-list>
+</ons-page> 

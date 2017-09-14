@@ -1,0 +1,45 @@
+{
+  "_from": "git+https://github.com/cyberkatze/pdfViewer.git",
+  "_id": "de.cyberkatze.phonegap.plugin.PdfViewer@0.3.0",
+  "_inBundle": false,
+  "_integrity": "sha1-y2o5vLAV1z35k9XVQDHtesXHlQA=",
+  "_location": "/de.cyberkatze.phonegap.plugin.PdfViewer",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "https://github.com/cyberkatze/pdfViewer.git",
+    "rawSpec": "https://github.com/cyberkatze/pdfViewer.git",
+    "saveSpec": "git+https://github.com/cyberkatze/pdfViewer.git",
+    "fetchSpec": "https://github.com/cyberkatze/pdfViewer.git",
+    "gitCommittish": "master"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git+https://github.com/cyberkatze/pdfViewer.git#f88a10d36c6b445f499c24c40fff30598290fd5d",
+  "_spec": "https://github.com/cyberkatze/pdfViewer.git",
+  "_where": "/home/nihil0/workspace/demalogic/onsen/carthesiomobile/node_modules",
+  "bundleDependencies": false,
+  "cordova_name": "PdfViewer",
+  "deprecated": false,
+  "description": "Cordova Android pdf-viewer Plugin",
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.3.0"
+    }
+  ],
+  "keywords": [
+    "cordova",
+    "pdf",
+    "pdfviewer",
+    "viewer",
+    "android",
+    "open"
+  ],
+  "license": "MIT",
+  "name": "de.cyberkatze.phonegap.plugin.PdfViewer",
+  "repo": "https://github.com/cyberkatze/pdfViewer",
+  "version": "0.3.0"
+}

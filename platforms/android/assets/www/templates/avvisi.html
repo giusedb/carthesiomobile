@@ -1,0 +1,12 @@
+<ons-page>
+    <ons-list>
+        <ons-list-header>
+            Avvisi del condominio {* ilCondominio.toString() *}
+        </ons-list-header>
+
+        <ons-list-item modifier="chevron" ng-repeat="avviso in ilCondominio.avviso_condominio_set | orderBy : 'created_on'" tappable ng-click="navigateDetails(avviso)">
+            <ons-icon icon="ion-checkmark-round" ng-if="!avviso.letto"></ons-icon>
+            {* avviso.name *}
+        </ons-list-item>
+    </ons-list>
+</ons-page>

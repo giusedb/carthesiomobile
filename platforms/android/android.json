@@ -1,0 +1,56 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {
+            "res/xml/config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"PdfViewer\"><param name=\"android-package\" value=\"de.cyberkatze.phonegap.plugin.PdfViewer\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "AndroidManifest.xml": {
+                "parents": {
+                    "/manifest": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
+                            "count": 1
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "installed_plugins": {
+        "de.cyberkatze.phonegap.plugin.PdfViewer": {
+            "PACKAGE_NAME": "com.example.helloworld"
+        }
+    },
+    "dependent_plugins": {},
+    "modules": [
+        {
+            "file": "plugins/de.cyberkatze.phonegap.plugin.PdfViewer/www/PdfViewer.js",
+            "id": "de.cyberkatze.phonegap.plugin.PdfViewer.PdfViewer",
+            "merges": [
+                "openPDF"
+            ]
+        }
+    ],
+    "plugin_metadata": {
+        "de.cyberkatze.phonegap.plugin.PdfViewer": "0.3.0"
+    }
+}

@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h3 ng-bind-html="o.title"></h3>
+</div>
+<div class="modal-body">
+    <span ng-bind-html="o.text"></span>
+    <span ng-if="items.length">
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="o in items" ng-click="select(o)" ng-class="{active : o._selected}">
+                {* o.label *}
+            </li>
+        </ul>
+    </span>
+    <div ng-if="o.open" style="width: 100%;">
+        <input type="{* o.type *}" ng-model="o.answer" value="{* o.default *}" style="width: 100%;" ng-keyup="$event.keyCode == 13 && ok()">
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="btn-group">
+        <div class="btn btn-success" ng-click="ok()">
+            Ok
+        </div>
+        <div class="btn btn-warning" ng-click="cancel()">
+            Annulla
+        </div>
+    </div>
+</div>

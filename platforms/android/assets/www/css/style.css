@@ -1,0 +1,35 @@
+/**/
+
+div.badge {
+    float : right;
+    background: #1923cd;
+    color: white;
+    font-size: 0.85em;
+    border-radius: 4px;
+    padding: 3px;
+    margin-right: 26px;
+}
+
+.fullImage {
+    height: 400px;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.label {
+    background: #1923cd;
+    color: white;
+    font-size: 0.85em;
+    border-radius: 4px;
+    padding: 3px;
+    margin-right: 26px;    
+}
+
+table.form-table {
+
+}
+
+table.form-table td {
+    height: 44px;
+}

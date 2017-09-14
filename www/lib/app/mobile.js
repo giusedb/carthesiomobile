@@ -236,9 +236,6 @@ function Login($http, $rootScope) {
         $timeout(function(){
             documentNavigator.on('postpush', function(evt) {
                 documentNavigator.removePage(0);
-                $timeout(function(){
-                    console.log(documentNavigator.pages);
-                });
             });
         })
 
@@ -290,4 +287,3 @@ function Login($http, $rootScope) {
     });    
 
 })(ons);
-

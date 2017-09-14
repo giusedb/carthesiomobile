@@ -1,0 +1,10 @@
+{
+    "de.cyberkatze.phonegap.plugin.PdfViewer": {
+        "source": {
+            "type": "registry",
+            "id": "https://github.com/cyberkatze/pdfViewer.git"
+        },
+        "is_top_level": true,
+        "variables": {}
+    }
+}

@@ -1,0 +1,5 @@
+<span ng-hide="edit && field.writable" ng-bind-html="obj[field.id]"></span>
+
+
+<text-angular ng-show="edit && field.writable" ng-model="obj[field.id]" ng-if="!options.isMobile"></text-angular>
+<text-angular ng-show="edit && field.writable" ng-model="obj[field.id]" ta-toolbar="[['h3','h4','h5'],['bold','italics','underline']]" ng-if="options.isMobile"></text-angular>
